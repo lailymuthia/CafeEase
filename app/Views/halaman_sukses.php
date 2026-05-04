@@ -19,11 +19,23 @@
             <p class="text-xs tracking-[0.3em] opacity-70 uppercase">Pesanan Telah Kami Terima</p>
         </div>
 
-        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-[2.5rem] shadow-2xl">
-            <h2 class="text-xl font-bold">Segera diantar ke <span class="text-[#EAD8C0]">Meja <?= $meja ?></span></h2>
-            <p class="text-sm italic opacity-70 mt-4 leading-relaxed">
-                Silahkan duduk manis, hidangan spesialmu sedang kami siapkan.
-            </p>
+        <div class="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-[2.5rem] shadow-2xl space-y-5">
+            <div>
+                <p class="text-xs tracking-[0.2em] uppercase opacity-60 mb-1">Pesanan untuk</p>
+                <h2 class="text-2xl font-bold"><?= $nama ?> — <span class="text-[#EAD8C0]">Meja <?= $meja ?></span></h2>
+            </div>
+
+            <div class="border-t border-white/20"></div>
+
+            <div class="flex items-start gap-4 text-left">
+                <div class="text-3xl">🧾</div>
+                <div>
+                    <p class="font-bold text-[#EAD8C0] text-base">Silakan bayar di kasir</p>
+                    <p class="text-sm opacity-70 mt-1 leading-relaxed">
+                        Pembayaran dapat dilakukan di kasir (tunai) atau panggil pelayan kami untuk pembayaran via QRIS / transfer.
+                    </p>
+                </div>
+            </div>
         </div>
 
         <div class="flex flex-col gap-3">

@@ -33,10 +33,35 @@
     </aside>
 
     <main class="flex-1 ml-60 p-8">
-        <header class="mb-8">
-            <h2 class="text-2xl font-bold text-gray-800">Daftar <span class="text-[#617A55]">Pesanan</span></h2>
-            <p class="text-gray-400 text-xs mt-1">Pantau dan kelola pesanan pelanggan yang masuk secara real-time.</p>
+        <header class="mb-8 flex justify-between items-start">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">Daftar <span class="text-[#617A55]">Pesanan</span></h2>
+                <p class="text-gray-400 text-xs mt-1">Pantau dan kelola pesanan pelanggan yang masuk secara real-time.</p>
+            </div>
+            <div class="text-right bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-3">
+                <p id="real-date" class="text-xs font-semibold text-gray-500 uppercase tracking-widest"></p>
+                <p id="real-clock" class="text-2xl font-bold text-[#617A55] tabular-nums"></p>
+            </div>
         </header>
+
+        <script>
+            function updateClock() {
+                const now = new Date();
+                const hariList  = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+                const bulanList = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+                const hari  = hariList[now.getDay()];
+                const tgl   = now.getDate();
+                const bulan = bulanList[now.getMonth()];
+                const tahun = now.getFullYear();
+                const hh    = String(now.getHours()).padStart(2, '0');
+                const mm    = String(now.getMinutes()).padStart(2, '0');
+                const ss    = String(now.getSeconds()).padStart(2, '0');
+                document.getElementById('real-date').textContent  = hari + ', ' + tgl + ' ' + bulan + ' ' + tahun;
+                document.getElementById('real-clock').textContent = hh + ':' + mm + ':' + ss + ' WIB';
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+        </script>
 
         <?php if (session()->getFlashdata('success')) : ?>
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl mb-6">
@@ -52,7 +77,13 @@
                             <div>
                                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">#<?= $o['id'] ?></span>
                                 <h3 class="text-xl font-bold text-gray-800"><?= esc($o['nama_pelanggan']) ?></h3>
-                                <p class="text-sm text-gray-500">Meja <?= esc($o['nomor_meja']) ?> • <?= date('H:i', strtotime($o['created_at'])) ?> WIB</p>
+                                <?php
+                                date_default_timezone_set('Asia/Jakarta');
+                                $bulanId = ['','Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+                                $ts = strtotime($o['created_at']);
+                                $tglPesanan = date('d', $ts) . ' ' . $bulanId[(int)date('n', $ts)] . ' ' . date('Y', $ts);
+                                ?>
+                                <p class="text-sm text-gray-500">Meja <?= esc($o['nomor_meja']) ?> • <?= $tglPesanan ?> • <?= date('H:i', $ts) ?> WIB</p>
                             </div>
                             <span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase <?= $o['status'] == 'Selesai' ? 'bg-green-50 text-green-600' : 'bg-orange-50 text-orange-600' ?>">
                                 <?= $o['status'] ?>
